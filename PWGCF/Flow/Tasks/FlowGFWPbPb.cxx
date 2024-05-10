@@ -130,6 +130,7 @@ struct FlowGFWPbPb {
     ccdb->setCreatedNotAfter(nolaterthan.value);
 
     // Add some output objects to the histogram registry
+
     registry.add("hEventCount", "Number of Events;; Count", {HistType::kTH1D, {{4, 0, 4}}});
     registry.get<TH1>(HIST("hEventCount"))->GetXaxis()->SetBinLabel(1, "Filtered event");
     registry.get<TH1>(HIST("hEventCount"))->GetXaxis()->SetBinLabel(2, "after sel8");
@@ -152,11 +153,11 @@ struct FlowGFWPbPb {
     registry.add("hnTPCCrossedRow", "Number of crossed TPC Rows", {HistType::kTH1D, {{100, 40, 180}}});
 
     // additional Output histograms
-    registry.add("c22", ";Centrality  (%) ; C_{2}{2} ", {HistType::kTProfile, {axisCentrality}});
-    registry.add("c24", ";Centrality  (%) ; C_{2}{4}", {HistType::kTProfile, {axisCentrality}});
-    registry.add("c26", ";Centrality  (%) ; C_{2}{6}", {HistType::kTProfile, {axisCentrality}});
-    registry.add("c28", ";Centrality  (%) ; C_{2}{8}", {HistType::kTProfile, {axisCentrality}});
-    registry.add("c22etagap", ";Centrality  (%) ; C_{2}{2} (|#eta| < 0.8) ", {HistType::kTProfile, {axisCentrality}});
+    registry.add("c22", ";Centrality  (%) ; C_{2}{2} ", {HistType::kTProfile, {axisMultiplicity}});
+    registry.add("c24", ";Centrality  (%) ; C_{2}{4}", {HistType::kTProfile, {axisMultiplicity}});
+    registry.add("c26", ";Centrality  (%) ; C_{2}{6}", {HistType::kTProfile, {axisMultiplicity}});
+    registry.add("c28", ";Centrality  (%) ; C_{2}{8}", {HistType::kTProfile, {axisMultiplicity}});
+    registry.add("c22etagap", ";Centrality  (%) ; C_{2}{2} (|#eta| < 0.8) ", {HistType::kTProfile, {axisMultiplicity}});
 
     // initial array
     BootstrapArray.resize(cfgNbootstrap);
@@ -396,6 +397,7 @@ struct FlowGFWPbPb {
 
     if (cfgUseAdditionalEventCut && !eventSelected(collision, tracks.size(), cent))
       return;
+
     registry.fill(HIST("hEventCount"), 2.5);
 
     float vtxz = collision.posZ();
@@ -407,7 +409,9 @@ struct FlowGFWPbPb {
 
     auto bc = collision.bc_as<aod::BCsWithTimestamps>();
     loadCorrections(bc.timestamp());
+
     registry.fill(HIST("hEventCount"), 3.5);
+
 
     // track weights
     float weff = 1, wacc = 1;
@@ -429,7 +433,9 @@ struct FlowGFWPbPb {
       if (!setCurrentParticleWeights(weff, wacc, track.phi(), track.eta(), track.pt(), vtxz))
         continue;
 
+
       bool WithinPtRef = (cfgCutPtMin < track.pt()) && (track.pt() < cfgCutPtMax); // within RF pT range
+
       registry.fill(HIST("hPt"), track.pt());
 
       if (WithinPtRef) {
@@ -447,6 +453,9 @@ struct FlowGFWPbPb {
     } // End of track loop
 
     registry.fill(HIST("cent_vs_Nch"), cent, Ntot);
+
+    } // End of track loop
+
 
     // Filling c22 with ROOT TProfile
     FillProfile(corrconfigs.at(0), HIST("c22"), cent);
