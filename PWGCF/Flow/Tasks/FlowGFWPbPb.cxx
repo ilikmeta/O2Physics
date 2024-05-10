@@ -412,7 +412,6 @@ struct FlowGFWPbPb {
 
     registry.fill(HIST("hEventCount"), 3.5);
 
-
     // track weights
     float weff = 1, wacc = 1;
     int Magnetfield = 0;
@@ -432,7 +431,6 @@ struct FlowGFWPbPb {
         fWeights->Fill(track.phi(), track.eta(), vtxz, track.pt(), cent, 0);
       if (!setCurrentParticleWeights(weff, wacc, track.phi(), track.eta(), track.pt(), vtxz))
         continue;
-
 
       bool WithinPtRef = (cfgCutPtMin < track.pt()) && (track.pt() < cfgCutPtMax); // within RF pT range
 
@@ -454,8 +452,7 @@ struct FlowGFWPbPb {
 
     registry.fill(HIST("cent_vs_Nch"), cent, Ntot);
 
-    } // End of track loop
-
+  } // End of track loop
 
     // Filling c22 with ROOT TProfile
     FillProfile(corrconfigs.at(0), HIST("c22"), cent);
