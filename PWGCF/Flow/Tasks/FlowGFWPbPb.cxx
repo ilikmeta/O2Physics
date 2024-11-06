@@ -127,20 +127,20 @@ struct FlowGFWPbPb {
     kCount_ExtraProfile
   };
 
-    enum eventprogress {
-      kFILTERED,
-      kSEL8,
-      kOCCUPANCY,
-      kTVXINTRD,
-      kNOTIMEFRAMEBORDER,
-      kNOITSROFRAMEBORDER,
-      kNOPSAMEBUNCHPILEUP,
-      kISGOODZVTXFT0VSPV,
-      kNOCOLLINTIMERANGESTANDART,
-      kAFTERMULTCUTS,
-      kCENTRALITY,
-      kNOOFEVENTSTEPS
-    };
+  enum eventprogress {
+    kFILTERED,
+    kSEL8,
+    kOCCUPANCY,
+    kTVXINTRD,
+    kNOTIMEFRAMEBORDER,
+    kNOITSROFRAMEBORDER,
+    kNOPSAMEBUNCHPILEUP,
+    kISGOODZVTXFT0VSPV,
+    kNOCOLLINTIMERANGESTANDART,
+    kAFTERMULTCUTS,
+    kCENTRALITY,
+    kNOOFEVENTSTEPS
+  };
 
   // Additional Event selection cuts - Copy from flowGenericFramework.cxx
   TF1* fPhiCutLow = nullptr;
@@ -160,7 +160,7 @@ struct FlowGFWPbPb {
     ccdb->setCreatedNotAfter(nolaterthan.value);
 
     // Add some output objects to the histogram registry
-    registry.add("hEventCount", "Number of Events;; No. of Events", {HistType::kTH1D, {{kNOOFEVENTSTEPS, - 0.5, kNOOFEVENTSTEPS - 0.5}}});
+    registry.add("hEventCount", "Number of Events;; No. of Events", {HistType::kTH1D, {{kNOOFEVENTSTEPS, -0.5, kNOOFEVENTSTEPS - 0.5}}});
     registry.get<TH1>(HIST("hEventCount"))->GetXaxis()->SetBinLabel(1, "Filtered events");
     registry.get<TH1>(HIST("hEventCount"))->GetXaxis()->SetBinLabel(2, "Sel8");
     registry.get<TH1>(HIST("hEventCount"))->GetXaxis()->SetBinLabel(3, "Occupancy");
@@ -609,17 +609,17 @@ struct FlowGFWPbPb {
 
       globaltracks_nch++;
       itstracks_nch++;
-        if (Global == true) {
-            registry.fill(HIST("Global_Tracks"), collision.centFT0C());
-            if (WithinPtRef)
-                fGFW->Fill(track.eta(), 1, track.phi(), wacc * weff, 1);
-        }
+      if (Global == true) {
+        registry.fill(HIST("Global_Tracks"), collision.centFT0C());
+        if (WithinPtRef)
+          fGFW->Fill(track.eta(), 1, track.phi(), wacc * weff, 1);
+      }
 
-        if (track.hasITS() && ITSonly == true) {
-            registry.fill(HIST("ITSonly"), collision.centFT0C());
-            if (WithinPtRef)
-                fGFW->Fill(track.eta(), 1, track.phi(), wacc * weff, 1);
-        }
+      if (track.hasITS() && ITSonly == true) {
+        registry.fill(HIST("ITSonly"), collision.centFT0C());
+        if (WithinPtRef)
+          fGFW->Fill(track.eta(), 1, track.phi(), wacc * weff, 1);
+      }
 
     } // End of track loop
 
