@@ -13,6 +13,8 @@
 #include <DataFormatsParameters/GRPMagField.h>
 #include <cmath>
 #include <vector>
+#include <string>
+#include <memory>
 #include "Framework/runDataProcessing.h"
 #include "Framework/AnalysisTask.h"
 #include "Framework/ASoAHelpers.h"
@@ -35,9 +37,6 @@
 #include <TProfile.h>
 #include <TRandom3.h>
 #include <TF1.h>
-
-#include <string>
-#include <memory>
 
 using namespace o2;
 using namespace o2::framework;
