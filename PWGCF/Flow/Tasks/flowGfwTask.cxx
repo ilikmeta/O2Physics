@@ -9,7 +9,7 @@
 // granted to it by virtue of its status as an Intergovernmental Organization
 // or submit itself to any jurisdiction.
 
-/// \file   flowGFWtask.cxx
+/// \file   flowGfwTask.cxx
 /// \author Iris Likmeta (iris.likmeta@cern.ch)
 /// \since  Mar 28, 2024
 /// \brief  Multiparticle flow measurements with FT0 and ZDC
@@ -52,7 +52,7 @@ using namespace o2::aod::evsel;
 
 #define O2_DEFINE_CONFIGURABLE(NAME, TYPE, DEFAULT, HELP) Configurable<TYPE> NAME{#NAME, DEFAULT, HELP};
 
-struct FlowGFWtask {
+struct FlowGfwTask {
 
   O2_DEFINE_CONFIGURABLE(cfgCutVertex, float, 10.0f, "Accepted z-vertex range")
   O2_DEFINE_CONFIGURABLE(cfgCutPtMin, float, 0.2f, "Minimal pT for ref tracks")
@@ -797,7 +797,7 @@ struct FlowGFWtask {
     }
       
   } // End of process
-    PROCESS_SWITCH(FlowGFWtask, processData, "Process analysis for Run 3 data", false);
+    PROCESS_SWITCH(FlowGfwTask, processData, "Process analysis for Run 3 data", false);
 
     // Filter the Reconstructed tracks
     Filter mytrackFilter = (nabs(aod::track::eta) < cfgCutEta) && (aod::track::pt > cfgCutPtMin) && (aod::track::pt < cfgCutPtMax) && (nabs(aod::track::dcaXY) < cfgCutDCAxy);
@@ -824,7 +824,7 @@ struct FlowGFWtask {
         }
       }
     }
-    PROCESS_SWITCH(FlowGFWtask, processMCReco, "process reconstructed information", false);
+    PROCESS_SWITCH(FlowGfwTask, processMCReco, "process reconstructed information", false);
 
     // Filter for MCParticle simulation
     Filter particleFilter = (nabs(aod::mcparticle::eta) < cfgCutEta) && (aod::mcparticle::pt > cfgCutPtMin) && (aod::mcparticle::pt < cfgCutPtMax);
@@ -853,12 +853,12 @@ struct FlowGFWtask {
         }
       }
     }
-    PROCESS_SWITCH(FlowGFWtask, processMCGEN, "process pure simulation information", false);
+    PROCESS_SWITCH(FlowGfwTask, processMCGEN, "process pure simulation information", false);
 
 }; // End of struct
 
 WorkflowSpec defineDataProcessing(ConfigContext const& cfgc)
 {
   return WorkflowSpec{
-    adaptAnalysisTask<FlowGFWtask>(cfgc)};
+    adaptAnalysisTask<FlowGfwTask>(cfgc)};
 }
